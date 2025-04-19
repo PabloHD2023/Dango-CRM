@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6 offset-md-3">
+    <h1>¿Estás seguro de que quieres eliminar este registro?</h1>
+    <p>Cliente: {{  customer_record.name }}</p>
+    <p>Correo: {{ customer_record.email }}</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Confirmar eliminación</button>
+    </form>
+    <a href="{% url 'home' %}">Cancelar</a>
+</div>
+
+{% endblock %}

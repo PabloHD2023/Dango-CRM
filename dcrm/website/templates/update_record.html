@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6 offset-md-3">
+
+<br>
+    <h1>Actualizar Cliente: </h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{% url 'home' %}" class="btn btn-dark">Volver</a>
+    </form>
+
+</div>
+
+
+
+{% endblock %}
