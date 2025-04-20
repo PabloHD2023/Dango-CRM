@@ -60,16 +60,36 @@ def customer_record(request, pk):
             return redirect('home')
       
 
+#def delete_record(request, pk):
+      #if request.user.is_authenticated:
+            #customer_record = Record.objects.get(id=pk)
+            #customer_record.delete()
+            #messages.success(request, 'El registro del cliente ha sido eliminado correctamente.')
+            #return redirect('home')
+      #else:
+            #messages.error(request, 'Por favor inicie sesión para eliminar el registro del cliente.')
+            #return redirect('home')
+      
+
+
 def delete_record(request, pk):
-      if request.user.is_authenticated:
-            customer_record = Record.objects.get(id=pk)
+      # Verifica si el usuario está autenticado
+      if not request.user.is_authenticated:
+            messages.error(request, 'Por favor inicie sesión para eliminar el registro del cliente.')
+            return redirect('home')
+
+      # Obtiene el registro del cliente
+      customer_record = get_object_or_404(Record, id=pk)
+
+      # Si la solicitud es POST, procede a eliminar el registro
+      if request.method == 'POST':
             customer_record.delete()
             messages.success(request, 'El registro del cliente ha sido eliminado correctamente.')
             return redirect('home')
-      else:
-            messages.error(request, 'Por favor inicie sesión para eliminar el registro del cliente.')
-            return redirect('home')
-      
+
+      # Si la solicitud es GET, muestra la confirmación de eliminación
+      return render(request, 'confirm_delete.html', {'customer_record': customer_record})
+
 def add_record(request):
       if request.user.is_authenticated:
             if request.method == 'POST':
@@ -84,6 +104,7 @@ def add_record(request):
       else:
             messages.error(request, 'Por favor inicie sesión para agregar un nuevo registro de cliente.')
             return redirect('home')
+
 
 def update_record(request, pk):
       if request.user.is_authenticated:
